@@ -16,6 +16,7 @@ import (
 	"time"
 	"unicode"
 	"unicode/utf8"
+  "runtime"
 )
 
 const (
@@ -587,3 +588,18 @@ func checkOverflow(ui uint64, i int64, bitsize uint8) {
 		}
 	}
 }
+
+func BackTrace() {
+  pc := make([]uintptr, 1024)
+  n := runtime.Callers(0, pc)
+  for i:=2; i<(n-2); i++ {
+    name:= runtime.FuncForPC(pc[i]).Name()
+    prefix := " "
+    if i==2 {
+      prefix="*"
+    }
+    fmt.Printf("%v[%v]\n", prefix,  name)
+  }
+  fmt.Println("")
+}
+
