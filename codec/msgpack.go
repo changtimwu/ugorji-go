@@ -721,6 +721,8 @@ func (c *msgpackSpecRpcCodec) WriteRequest(r *rpc.Request, body interface{}) err
 		bodyArr = []interface{}{body}
 	}
 	r2 := []interface{}{0, uint32(r.Seq), r.ServiceMethod, bodyArr}
+  //fmt.Println("writeReq:")
+  fmt.Println( r2)
 	return c.write(r2, nil, false, true)
 }
 
@@ -733,6 +735,8 @@ func (c *msgpackSpecRpcCodec) WriteResponse(r *rpc.Response, body interface{}) e
 		body = nil
 	}
 	r2 := []interface{}{1, uint32(r.Seq), moe, body}
+
+  //fmt.Println( r2)
 	return c.write(r2, nil, false, true)
 }
 
@@ -749,6 +753,8 @@ func (c *msgpackSpecRpcCodec) ReadRequestBody(body interface{}) error {
 		return c.read(nil)
 	}
 	bodyArr := []interface{}{body}
+
+  fmt.Println( body)
 	return c.read(&bodyArr)
 }
 

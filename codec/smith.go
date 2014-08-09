@@ -21,9 +21,10 @@ func (c *smithSpecRpcCodec) WriteRequest(r *rpc.Request, body interface{}) error
 	} else {
 		bodyArr = []interface{}{body}
 	}
-	//r2 := []interface{}{ 0, uint32(r.Seq), r.ServiceMethod, bodyArr}
-	r2 := []interface{}{r.ServiceMethod, bodyArr, map[string]int{"$": r.Seq}}
-
+	r2 := []interface{}{ 0, uint32(r.Seq), r.ServiceMethod, bodyArr}
+	//fmt.Println("bodyArr=", bodyArr)
+  //r2 := []interface{}{r.ServiceMethod, bodyArr, map[string]int{"$": uint32(r.Seq)}}
+  /* TODO: how to prepend length?*/
 	return c.write(r2, nil, false, true)
 }
 
@@ -35,7 +36,7 @@ func (c *smithSpecRpcCodec) WriteResponse(r *rpc.Response, body interface{}) err
 	if moe != nil && body != nil {
 		body = nil
 	}
-	r2 := []interface{}{1, uint32(r.Seq), moe, body}
+	r2 := []interface{}{ uint32(r.Seq), moe, body}
 	return c.write(r2, nil, false, true)
 }
 

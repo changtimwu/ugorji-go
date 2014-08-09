@@ -8,6 +8,8 @@ import (
 	"io"
 	"net/rpc"
 	"sync"
+  "runtime"
+  "fmt"
 )
 
 // Rpc provides a rpc Server or Client Codec for rpc communication.
@@ -59,6 +61,7 @@ func (c *rpcCodec) BufferedWriter() *bufio.Writer {
 }
 
 func (c *rpcCodec) write(obj1, obj2 interface{}, writeObj2, doFlush bool) (err error) {
+  BackTrace()
 	if c.cls {
 		return io.EOF
 	}
@@ -77,6 +80,7 @@ func (c *rpcCodec) write(obj1, obj2 interface{}, writeObj2, doFlush bool) (err e
 }
 
 func (c *rpcCodec) read(obj interface{}) (err error) {
+  BackTrace()
 	if c.cls {
 		return io.EOF
 	}
